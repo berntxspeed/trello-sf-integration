@@ -8,7 +8,7 @@ try:
     config = {
         'sfapi_consumer_key': os.environ.get('SFAPI_CONSUMER_KEY'),
         'sfapi_consumer_secret': os.environ.get('SFAPI_CONSUMER_SECRET'),
-        'enable_verbose_logging': os.environment.get('ENABLE_VERBOSE_LOGGING', None)
+        'enable_verbose_logging': os.environ.get('ENABLE_VERBOSE_LOGGING', None)
     }
     if config['enable_verbose_logging'] is not None:
         logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
