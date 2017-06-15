@@ -3,6 +3,7 @@ import sys
 import logging
 from flask import Flask
 import requests
+from simple_salesforce import Salesforce
 
 try:
     config = {
@@ -20,4 +21,5 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
+    sf = Salesforce(username='')
     return 'Hello World!'
