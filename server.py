@@ -97,7 +97,7 @@ def hello():
                         task['activitydate'] = card['due']
                         task['status'] = task_status
                         task['subject'] = card['name']
-                        task['description'] = card['description']
+                        task['description'] = task_desc
 
                         task_table.update(task, ['id'])
                         print('updating task with subject: ' + task['subject'] + ' on board: ' + board['name'])
