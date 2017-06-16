@@ -11,10 +11,10 @@ try:
         'sfapi_consumer_secret': os.environ.get('SFAPI_CONSUMER_SECRET'),
         'enable_verbose_logging': os.environ.get('ENABLE_VERBOSE_LOGGING', None),
         'database_url': os.environ.get('DATABASE_URL'),
-        'trello_api_key' = os.environ.get('TRELLO_API_KEY'),
-        'trello_api_token' = os.environ.get('TRELLO_API_TOKEN'),
-        'trello_api_token' = os.environ.get('TRELLO_API_USERNAME'),
-        'trello_base_api' = os.environ.get('TRELLO_API_BASE_API')
+        'trello_api_key': os.environ.get('TRELLO_API_KEY'),
+        'trello_api_token': os.environ.get('TRELLO_API_TOKEN'),
+        'trello_api_token': os.environ.get('TRELLO_API_USERNAME'),
+        'trello_base_api': os.environ.get('TRELLO_API_BASE_API')
     }
     if config['enable_verbose_logging'] is not None:
         logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
