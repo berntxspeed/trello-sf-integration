@@ -84,7 +84,7 @@ def hello():
                     task_desc = '----------Card Description:\n' + card['desc'] + '\n\n'
                     task_desc = task_desc + '----------Card Progress:\n' + str(check_items_checked) + ' checked out of ' + str(check_items) + '\n\n'
 
-                    if card['id'] in card_comments:
+                    if card['id'] in card_comments[:3]:
                         task_desc = task_desc + '----------Most recent Comments (3):\n\n'
                         for comment in card_comments.get(card['id']):
                             task_desc = task_desc + comment['date'] + ' by user: ' + comment['memberCreator']['fullName'] + '\n'
