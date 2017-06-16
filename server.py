@@ -89,7 +89,7 @@ def hello():
                     if card['id'] in card_comments:
                         task_desc = task_desc + '----------Most recent Comments (3):\n\n'
                         for comment in card_comments.get(card['id']):
-                            task_desc = task_desc + comment['date'] + ' by user: ' + comment['memeberCreator']['fullName'] + '\n'
+                            task_desc = task_desc + comment['date'] + ' by user: ' + comment['memberCreator']['fullName'] + '\n'
                             task_desc = task_desc + comment['data']['text'] + '\n\n'
 
                     # search for task with matching Trello_Card_ID__c
