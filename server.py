@@ -105,6 +105,7 @@ def hello():
                         # *** create new task with card info
                         task = dict(whatid=acct['sfid'],
                                     recordtypeid=trello_record_type['sfid'],
+                                    trello_card_id__c=card['id'],
                                     activitydate=card['due'],
                                     status=task_status,
                                     subject=card['name'],
