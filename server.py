@@ -43,8 +43,9 @@ def hello():
         r = requests.get(config['trello_base_api'] + endpoint, params=payload)
         if r.status_code != 200:
             raise ValueError('trello boards request errored')
+        boards = r.json()
         # loop thru boards
-        for board in r.json():
+        for board in boards:
             print('processing board: ' + board['name'])
             # search for acct matching board
             acct = acct_table.find_one(name=board['name'])
