@@ -84,7 +84,7 @@ def hello():
                         task_status = 'Open'
 
                     task_desc = '----------Card Description:\n' + card['desc'] + '\n\n'
-                    task_desc = task_desc + '----------Card Progress:\n' + check_items_checked + ' checked out of ' + check_items + '\n\n'
+                    task_desc = task_desc + '----------Card Progress:\n' + str(check_items_checked) + ' checked out of ' + str(check_items) + '\n\n'
 
                     if card['id'] in card_comments:
                         task_desc = task_desc + '----------Most recent Comments (3):\n\n'
