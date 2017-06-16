@@ -22,14 +22,13 @@ def make_shell_context():
         'app': app
     }
 manager.add_command('shell', Shell(make_context=make_shell_context))
+manager.add_command('runserver', Server(host='0.0.0.0', port=5000))
 
-@manager.command
-def runserver():
+def worker():
     schedule.every(5).minutes.do(refresh_trello)
     t = Thread(target=run_schedule)
     t.start()
     print('starting thread for updating trello')
-    app.run(host='0.0.0.0', port=5000)
 
 if __name__ == '__main__':
     manager.run()
