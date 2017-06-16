@@ -26,8 +26,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    success = False
-
     with dataset.connect(config['database_url'], schema='salesforce') as db:
         acct_table = db['account']
         task_table = db['task']
@@ -114,8 +112,4 @@ def hello():
                         task_table.insert(task)
                         print('creating new task with subject: ' + task['subject'] + ' on board: ' + board['name'])
 
-
-    if success:
-        return 'completed successfully'
-    else:
-        return 'error'
+    return 'completed update'
