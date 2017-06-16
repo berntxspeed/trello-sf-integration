@@ -7,8 +7,6 @@ import dataset
 
 try:
     config = {
-        'sfapi_consumer_key': os.environ.get('SFAPI_CONSUMER_KEY'),
-        'sfapi_consumer_secret': os.environ.get('SFAPI_CONSUMER_SECRET'),
         'enable_verbose_logging': os.environ.get('ENABLE_VERBOSE_LOGGING', None),
         'database_url': os.environ.get('DATABASE_URL'),
         'trello_api_key': os.environ.get('TRELLO_API_KEY'),
@@ -26,6 +24,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
+    refresh_trello()
+    return 'Hello World'
+
+def refresh_trello():
     with dataset.connect(config['database_url'], schema='salesforce') as db:
         acct_table = db['account']
         task_table = db['task']
@@ -113,4 +115,4 @@ def hello():
                         task_table.insert(task)
                         print('creating new task with subject: ' + task['subject'] + ' on board: ' + board['name'])
 
-    return 'completed update'
+    print('completed update')
