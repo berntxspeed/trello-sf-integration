@@ -93,7 +93,7 @@ def hello():
                             task_desc = task_desc + comment['data']['text'] + '\n\n'
 
                     # search for task with matching Trello_Card_ID__c
-                    task = task_table.find_one(Trello_Card_ID__c=card['id'], RecordTypeId=trello_record_type['sfid'])
+                    task = task_table.find_one(trello_card_id__c=card['id'], recordtypeid=trello_record_type['sfid'])
                     if task is not None:
                         # *** update task with new card info
                         task['activitydate'] = card['due']
