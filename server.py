@@ -46,6 +46,7 @@ def refresh_trello():
         boards = r.json()
         # loop thru boards
         for board in boards:
+            time.sleep(1)
             print('processing board: ' + board['name'])
             # search for acct matching board
             acct = acct_table.find_one(name=board['name'])
