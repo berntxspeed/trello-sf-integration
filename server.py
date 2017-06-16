@@ -13,7 +13,7 @@ try:
         'database_url': os.environ.get('DATABASE_URL'),
         'trello_api_key': os.environ.get('TRELLO_API_KEY'),
         'trello_api_token': os.environ.get('TRELLO_API_TOKEN'),
-        'trello_api_token': os.environ.get('TRELLO_API_USERNAME'),
+        'trello_api_username': os.environ.get('TRELLO_API_USERNAME'),
         'trello_base_api': os.environ.get('TRELLO_API_BASE_API')
     }
     if config['enable_verbose_logging'] is not None:
@@ -38,9 +38,9 @@ def hello():
             raise ValueError('missing Trello record type for Task. check SF and add if not there already.')
 
         # get boards from trello
-        endpoint = '/members/'+username+'/boards'
-        payload = {'key': key, 'token': token}
-        r = requests.get(base_api + endpoint, params=payload)
+        endpoint = '/members/'+config['trello_api_username']+'/boards'
+        payload = {'key': config['trello_api_key'], 'token': config['trello_api_token']}
+        r = requests.get(config['trello_base_api'] + endpoint, params=payload)
         if r.status_code != 200:
             raise ValueError('trello boards request errored')
         # loop thru boards
@@ -50,12 +50,12 @@ def hello():
             acct = acct_table.find_one(name=board['name'])
             if acct is not None:
                 endpoint = '/board/' + board['id'] + '/cards'
-                r = requests.get(base_api + endpoint, params=payload)
+                r = requests.get(config['trello_base_api'] + endpoint, params=payload)
                 cards = r.json()
                 if r.status_code != 200:
                     raise ValueError('trello cards request for board id: ' + board['id'] + ' errored')
                 endpoint = '/board/' + board['id'] + '/actions'
-                r = requests.get(base_api + endpoint, params=payload)
+                r = requests.get(config['trello_base_api'] + endpoint, params=payload)
                 card_actions = r.json()
                 # organize card_actions into dict by card id, and select for only comment type
                 card_comments = dict()
