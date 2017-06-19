@@ -7,13 +7,16 @@ import dataset
 import time
 
 try:
+    # trello mode should be either personal or org (depending on if Organizations are enabled in the account)
     config = {
         'enable_verbose_logging': os.environ.get('ENABLE_VERBOSE_LOGGING', None),
         'database_url': os.environ.get('DATABASE_URL'),
         'trello_api_key': os.environ.get('TRELLO_API_KEY'),
         'trello_api_token': os.environ.get('TRELLO_API_TOKEN'),
-        'trello_api_username': os.environ.get('TRELLO_API_USERNAME'),
-        'trello_base_api': os.environ.get('TRELLO_API_BASE_API')
+        'trello_api_username': os.environ.get('TRELLO_API_USERNAME', None),
+        'trello_base_api': os.environ.get('TRELLO_API_BASE_API'),
+        'trello_org_id': os.environ.get('TRELLO_ORG_ID', None),
+        'trello_mode': os.environ.get('TRELLO_MODE')
     }
     if config['enable_verbose_logging'] is not None:
         logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
@@ -39,7 +42,16 @@ def refresh_trello():
             raise ValueError('missing Trello record type for Task. check SF and add if not there already.')
 
         # get boards from trello
-        endpoint = '/members/'+config['trello_api_username']+'/boards'
+        if config['trello_mode'] == 'org':
+            if config['trello_org_id'] is None:
+                raise ValueError('must supply a value for TRELLO_ORG_ID')
+            endpoint = '/organizations/' + config['trello_org_id'] + '/boards'
+        elif config['trello_mode'] == 'personal':
+            if config['trello_api_username'] is None:
+                raise ValueError('must supply a value for TRELLO_API_USERNAME')
+            endpoint = '/members/' + config['trello_api_username'] + '/boards'
+        else:
+            raise ValueError('invalid setting for TRELLO_MODE.  must be either org or personal')
         payload = {'key': config['trello_api_key'], 'token': config['trello_api_token']}
         r = requests.get(config['trello_base_api'] + endpoint, params=payload)
         if r.status_code != 200:
