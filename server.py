@@ -40,6 +40,9 @@ def refresh_trello():
         if trello_record_type is None:
             raise ValueError('missing Trello record type for Task. check SF and add if not there already.')
 
+        #IDEA: clear out any tasks that have SF errors and thus don't have sfid values (sfid=None)
+        #task_table.delete(sfid=None, recordtypeid=trello_record_type['sfid'])
+
         # get boards from trello
         if config['trello_mode'] == 'org':
             if config['trello_org_id'] is None:
