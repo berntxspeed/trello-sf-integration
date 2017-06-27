@@ -121,6 +121,8 @@ def refresh_trello():
                         print('updating task with subject: ' + task['subject'] + ' on board: ' + board['name'])
                     else:
                         # *** create new task with card info
+
+                        #IDEA: set createdDate on sf task to card created date? 
                         task = dict(whatid=acct['sfid'],
                                     recordtypeid=trello_record_type['sfid'],
                                     trello_card_id__c=card['id'],
