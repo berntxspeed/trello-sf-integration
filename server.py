@@ -28,7 +28,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    refresh_trello()
     return 'Hello World'
 
 def refresh_trello():
