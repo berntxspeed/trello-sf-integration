@@ -8,6 +8,6 @@ def run_schedule():
         time.sleep(1)
 
 if __name__ == '__main__':
-    schedule.every(1).hours.do(refresh_trello)
+    schedule.every(1).hour.do(refresh_trello)
     print('starting thread for updating trello')
     run_schedule()
