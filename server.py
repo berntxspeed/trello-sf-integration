@@ -94,11 +94,11 @@ def refresh_trello():
                     else:
                         task_status = 'Open'
 
-                    task_desc = '----------Card Description:\n' + card['desc'] + '\n\n'
-                    task_desc = task_desc + '----------Card Progress:\n' + str(check_items_checked) + ' checked out of ' + str(check_items) + '\n\n'
+                    task_desc = '---Card Progress:\n' + str(check_items_checked) + ' checked out of ' + str(check_items) + '\n\n'
+                    task_desc = task_desc + '---Card Description:\n' + card['desc'] + '\n\n'
 
                     if card['id'] in card_comments:
-                        task_desc = task_desc + '----------Most recent Comments (3):\n\n'
+                        task_desc = task_desc + '---Most recent Comments (3):\n\n'
                         for comment in card_comments.get(card['id'])[:3]:
                             task_desc = task_desc + comment['date'] + ' by user: ' + comment['memberCreator']['fullName'] + '\n'
                             task_desc = task_desc + comment['data']['text'] + '\n\n'
