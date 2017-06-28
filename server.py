@@ -33,12 +33,7 @@ def hello():
 def refresh_trello():
     with dataset.connect(config['database_url'], schema='salesforce') as db:
         acct_table = db['account']
-        task_table = db['task']
-        record_type_table = db['recordtype']
-
-        trello_record_type = record_type_table.find_one(name='Trello')
-        if trello_record_type is None:
-            raise ValueError('missing Trello record type for Task. check SF and add if not there already.')
+        card_table = db['trello_card__c']
 
         #IDEA: clear out any tasks that have SF errors and thus don't have sfid values (sfid=None)
         #task_table.delete(sfid=None, recordtypeid=trello_record_type['sfid'])
@@ -109,28 +104,27 @@ def refresh_trello():
                             task_desc = task_desc + comment['data']['text'] + '\n\n'
 
                     # search for task with matching Trello_Card_ID__c
-                    task = task_table.find_one(trello_card_id__c=card['id'], recordtypeid=trello_record_type['sfid'])
+                    task = card_table.find_one(trello_card_id__c=card['id'])
                     if task is not None:
                         # *** update task with new card info
-                        task['activitydate'] = card['due']
-                        task['status'] = task_status
-                        task['subject'] = card['name']
-                        task['description'] = task_desc
+                        task['due__c'] = card['due']
+                        task['status__c'] = task_status
+                        task['name'] = card['name']
+                        task['description__c'] = task_desc
 
-                        task_table.update(task, ['id'])
-                        print('updating task with subject: ' + task['subject'] + ' on board: ' + board['name'])
+                        card_table.update(task, ['id'])
+                        print('updating task with subject: ' + task['name'] + ' on board: ' + board['name'])
                     else:
                         # *** create new task with card info
 
-                        #IDEA: set createdDate on sf task to card created date? 
-                        task = dict(whatid=acct['sfid'],
-                                    recordtypeid=trello_record_type['sfid'],
+                        #IDEA: set createdDate on sf task to card created date?
+                        task = dict(account__c=acct['sfid'],
                                     trello_card_id__c=card['id'],
-                                    activitydate=card['due'],
-                                    status=task_status,
-                                    subject=card['name'],
-                                    description=task_desc)
-                        task_table.insert(task)
-                        print('creating new task with subject: ' + task['subject'] + ' on board: ' + board['name'])
+                                    due__c=card['due'],
+                                    status__c=task_status,
+                                    name=card['name'],
+                                    description__c=task_desc)
+                        card_table.insert(task)
+                        print('creating new task with subject: ' + task['name'] + ' on board: ' + board['name'])
 
     print('completed update')
