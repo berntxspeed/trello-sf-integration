@@ -128,3 +128,20 @@ def refresh_trello():
                         print('creating new task with subject: ' + task['name'] + ' on board: ' + board['name'])
 
     print('completed update')
+
+def clear_trigger_log_table():
+    print('starting periodic process to delete SF _trigger_log records')
+
+    with dataset.connect(config['database_url'], schema='salesforce') as db:
+
+        trigger_log_table = db['_trigger_log']
+        if trigger_log_table.delete():
+            print('successfully deleted all SF _trigger_log records')
+        else:
+            print('failed to delete SF _trigger_log records')
+
+        trigger_log_archive_table = db['_trigger_log_archive']
+        if trigger_log_archive_table.delete():
+            print('successfully deleted all SF _trigger_log_archive records')
+        else:
+            print('failed to delete SF _trigger_log_archive records')
