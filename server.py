@@ -109,7 +109,7 @@ def refresh_trello():
                         # *** update task with new card info
                         task['due__c'] = card['due']
                         task['status__c'] = task_status
-                        task['name'] = card['name']
+                        task['name'] = card['name'][:80]
                         task['description__c'] = task_desc
 
                         card_table.update(task, ['id'])
@@ -122,7 +122,7 @@ def refresh_trello():
                                     trello_card_id__c=card['id'],
                                     due__c=card['due'],
                                     status__c=task_status,
-                                    name=card['name'],
+                                    name=card['name'][:80],
                                     description__c=task_desc)
                         card_table.insert(task)
                         print('creating new task with subject: ' + task['name'] + ' on board: ' + board['name'])
